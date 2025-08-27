@@ -1,11 +1,14 @@
 import { useState } from "react";
-
-
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../store/auth";
+const URL="http://localhost:5000/api/auth/login";
 export const Login = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
   });
+   const navigate=useNavigate();
+   const {storeTokenInLS}=useAuth();
 
   // handle input
   const handleInput = (e) => {
@@ -18,11 +21,45 @@ export const Login = () => {
   };
 
   // handle submit
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log( user);
+    
     // 👉 Here you can call your backend API for login
+
+       try{
+        const response= await fetch(URL,{
+      method :"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify(user),
+
+
+    });
+      console.log("login form",response);
+    if(response.ok)
+    {
+       alert("Login successfully");
+       const res_data=await response.json();
+       storeTokenInLS(res_data.token);
+     
+      setUser({   email: "", password: "" });
+      navigate("/");
+      
+
+    }
+    else{
+      alert("Invalid credential");
+    }
+    }
+    catch(error)
+    {
+      console.log("register",error);
+
+    }
+ 
   };
+  
 
   return (
     <>
