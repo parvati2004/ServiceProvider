@@ -39,10 +39,12 @@ export const Register = () => {
 
 
     });
+     console.log(response);
+      const res_data=await response.json();
+      console.log("res from server",res_data.extraDetails);
     if(response.ok)
     {
-      const res_data=await response.json();
-      console.log("res from server",res_data);
+     
       //or insted of ths we can also use  localStorage.setItem("token",res_data); but it need to define everytime so we are directly access
       storeTokenInLS(res_data.token);
      
@@ -51,9 +53,12 @@ export const Register = () => {
       navigate("/login");
 
     }
+    else{
+      alert(res_data.extraDetails);
+    }
      
 
-    console.log(response);
+   
 
     }
     catch(error)
