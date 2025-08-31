@@ -1,5 +1,6 @@
 import { useState } from "react"
 import {useAuth} from "../store/auth";
+import { toast } from "react-toastify";
 
 
 
@@ -59,13 +60,13 @@ export const  Contact=()=>{
                 setContact(defaultContactFormData);
                 const data=await response.json();
                 console.log(data);
-                alert('Message send successfully');
+                toast.success('Message send successfully');
               }
 
             }
             catch (error)
             {
-              alert("message not send");
+             toast.error("message not send");
               console.log(error);
             }
         }

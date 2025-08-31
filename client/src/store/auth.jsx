@@ -9,8 +9,9 @@ export const AuthProvider = ({ children }) => {
   const [services,setServices]=useState("");
   // Function to store token in localStorage AND update state
   const storeTokenInLS = (serverToken) => {
-    localStorage.setItem("token", serverToken);
-    setToken(serverToken); // this triggers a re-render
+    setToken(serverToken);
+    return localStorage.setItem("token", serverToken);
+     // this triggers a re-render
   };
 
   const isLoggedIn = !!token;

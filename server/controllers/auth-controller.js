@@ -12,7 +12,7 @@ const home=async(req,res)=>{
 
 };
 
-const register=async(req,res)=>{
+const register=async(req,res,next)=>{
  try{
     console.log(req.body);
     //step 1: get registration data
@@ -22,7 +22,7 @@ const register=async(req,res)=>{
     const userExist=await User.findOne({email});
     if(userExist)
     {
-        return res.status(400).json({msg:"email already exist"});
+        return res.status(400).json({message:"email already exist"});
     }
     //hash the password
     // const saltRound=10;
@@ -38,7 +38,7 @@ const register=async(req,res)=>{
    }
    catch(error){
 //    res.status(500).json("internal server error");
-  next(error);
+        next(error);
    }
 
 
@@ -50,10 +50,10 @@ const login=async(req,res)=>{
     try{
         const {email,password}=req.body;
         const userExist=await User.findOne({email});
-        console.log(userExist)
+       //console.log(userExist);
         if(!userExist)
         {
-            return res.status(400).json({message:"Invalid Credential"});
+            return res.status(400).json({message:"Invalid Credential "});
         }
         //const user=await bcrypt.compare(password,userExist.password); or
         const user=await userExist.comparePassword(password);
@@ -84,7 +84,7 @@ const login=async(req,res)=>{
 const user=async(req,res)=>{
     try{
         const userData=req.user;
-        console.log(userData);
+       // console.log(userData);
         return res.status(200).json({userData});
 
     }
