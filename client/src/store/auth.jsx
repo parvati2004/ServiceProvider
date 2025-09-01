@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -7,6 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const [user,setUser]=useState("");
   const [services,setServices]=useState("");
+  const AuthorizationToken=`Bearer ${token}`;
   // Function to store token in localStorage AND update state
   const storeTokenInLS = (serverToken) => {
     setToken(serverToken);
@@ -29,7 +31,7 @@ const userAuthentication=async()=>{
     const response=await fetch("http://localhost:5000/api/auth/user",{
       method:"GET",
       headers:{
-        Authorization:`Bearer ${token}`,
+        Authorization:AuthorizationToken,
       },
     });
     if(response.ok)
@@ -83,7 +85,7 @@ useEffect(()=>{
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser ,user,
-      services
+      services,AuthorizationToken
     }}>
       {children}
     </AuthContext.Provider>
