@@ -12,6 +12,7 @@ import { Logout } from "./pages/Logout";
 import { AdminLayout } from "./components/layouts/Admin-Layout";
 import { AdminUsers } from "./pages/Admin-Users";
 import { AdminContacts } from "./pages/Admin-Contacts";
+import "./App.css";
 const App = () => {
   return (
     <BrowserRouter>

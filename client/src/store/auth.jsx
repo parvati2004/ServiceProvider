@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
 
   const [user,setUser]=useState("");
   const [services,setServices]=useState("");
-  const AuthorizationToken=`Bearer ${token}`;
+  const authorizationToken=`Bearer ${token}`;
   // Function to store token in localStorage AND update state
   const storeTokenInLS = (serverToken) => {
     setToken(serverToken);
@@ -31,7 +31,7 @@ const userAuthentication=async()=>{
     const response=await fetch("http://localhost:5000/api/auth/user",{
       method:"GET",
       headers:{
-        Authorization:AuthorizationToken,
+        Authorization:authorizationToken,
       },
     });
     if(response.ok)
@@ -85,7 +85,7 @@ useEffect(()=>{
 
   return (
     <AuthContext.Provider value={{ isLoggedIn, storeTokenInLS, LogoutUser ,user,
-      services,AuthorizationToken
+      services,authorizationToken
     }}>
       {children}
     </AuthContext.Provider>

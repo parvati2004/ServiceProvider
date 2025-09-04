@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import { useAuth } from "../store/auth"
-
+import { Link } from "react-router-dom";
 export const AdminUsers=()=>{
 
     const [users,setUsers]=useState([]);
@@ -10,7 +10,7 @@ export const AdminUsers=()=>{
     const getAllUsersData=async()=>{
 
         try{
-            const response=await fetch('http://localhost:5000/api/admin/users',
+            const response=await fetch("http://localhost:5000/api/admin/users",
                 {
                       method:"GET",
                       headers:{
@@ -28,7 +28,34 @@ export const AdminUsers=()=>{
         {
             console.log(error);
         }
+    };
+
+       //delete the user on delete button
+    const deleteUser=async(id)=>{
+        try{
+          const response=await fetch(`http://localhost:5000/api/admin/users/delete/${id}`,
+                {
+                      method:"DELETE",
+                      headers:{
+                        Authorization:authorizationToken,
+
+                      },
+
+                });
+          
+                 const data=await response.json();
+                console.log(`users after deleted ${data}`);
+                if(response.ok){
+                    getAllUsersData();
+
+                }
+            }
+                  catch(error){
+                    console.log(error);
+                  }
+
     }
+ 
     useEffect(()=>{
         getAllUsersData();
     },[]);
@@ -52,13 +79,20 @@ export const AdminUsers=()=>{
          </thead>
          <tbody>
             {users.map((curUser,index)=>{
-            return <tr key={index}>
+            return (
+                <tr key={index}>
             <td>{curUser.username}</td>
-            <td>Edit</td>
-            <td>Delete</td>
+             <td>{curUser.email}</td>
+             <td>{curUser.phone}</td>
+             <td>
+             <Link to={`/admin/users/${curUser._id}/edit`}>Edit</Link>
+             </td>
+            
+            <td><button onClick={()=>deleteUser(curUser._id)}>Delete</button></td>
             </tr>
+            );
 
-    })} 
+    })}  
          </tbody>
      </table>
     
