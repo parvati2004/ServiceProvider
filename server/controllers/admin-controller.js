@@ -37,7 +37,25 @@ const getUserById=async(req,res)=>{
 
 }
 
+//User Update logic
+const updateUserById=async(req,res)=>{
+    try{
+        const id=req.params.id;
+        const updatedUserData=req.body;
+        const updatedData=await User.updateOne({_id:id},
+         {
+                $set:updatedUserData,
 
+        });
+        return res.status(200).json(updatedData);
+
+
+    }
+    catch(error){
+        next(error);
+    }
+
+}
 
 
 //user delete logic
@@ -74,5 +92,5 @@ const getAllContacts=async(req,res)=>{
 
     }
 
-}
-module.exports={getAllUsers,getAllContacts,deleteUserById,getUserById};
+};
+module.exports={getAllUsers,getAllContacts,deleteUserById,getUserById,updateUserById};
